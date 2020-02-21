@@ -1,0 +1,76 @@
+﻿@using EONtestEF.Models;
+
+@{
+    ViewBag.Title = "Home Page";
+    List<Users> userlist = ViewBag.listuser;
+}
+
+<h1>List of Registered Users</h1>
+<input type="button" value="+ Add User" onclick="window.location.href='@Url.Action("AddUserForm","Home")'" />
+<table class="w3-table w3-striped">
+    <tr><th>No</th><th>Name</th><th>Email</th><th>Gender</th><th>Date Reg</th><th>Selected Days</th><th>Add Request</th></tr>
+
+    @{ foreach (Users user in userlist)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.Gender</td>
+                <td>@user.regDate</td>
+                <td>
+                    @{ if (user.Days1) { <p>Day 1</p>}
+                        if (user.Days2) { <p>Day 2</p>}
+                        if (user.Days3) { <p>Day 3</p>}
+                       }
+
+                </td>
+                <td>@user.AddReq</td>
+
+            </tr>
+
+            <tr>
+            </tr>
+        }
+
+
+
+    }
+
+</table>
+
+
+<script>
+    function AddUser() {
+
+        alert();
+
+        $.ajax({
+            type: "POST",
+            url: "/Product/ClickAddtoCart",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(pdata),
+            dataType: "json",
+
+            // Response Success
+            success: function (response) {
+
+                window.location(@Url.Action("AddUserForm","Home"))
+
+            },
+
+            // Response Fail
+            failure: function (response) {
+                alert("Fail Case");
+            },
+
+            // Response Error
+            error: function (response) {
+                alert("ERROR case");
+            }
+
+
+        });
+    }
+
+</script>
